@@ -74,7 +74,7 @@ public class EntityAITargetRiderRevenge extends EntityAITargetAttack {
         
         if(this.callForHelp) {
             double d0 = this.getTargetDistance();
-            List allies = this.host.worldObj.getEntitiesWithinAABB(this.host.getClass(), AxisAlignedBB.getAABBPool().getAABB(this.host.posX, this.host.posY, this.host.posZ, this.host.posX + 1.0D, this.host.posY + 1.0D, this.host.posZ + 1.0D).expand(d0, 10.0D, d0));
+            List allies = this.host.worldObj.getEntitiesWithinAABB(this.host.getClass(), AxisAlignedBB.getBoundingBox(this.host.posX, this.host.posY, this.host.posZ, this.host.posX + 1.0D, this.host.posY + 1.0D, this.host.posZ + 1.0D).expand(d0, 10.0D, d0));
             Iterator possibleAllies = allies.iterator();
 
             while(possibleAllies.hasNext()) {

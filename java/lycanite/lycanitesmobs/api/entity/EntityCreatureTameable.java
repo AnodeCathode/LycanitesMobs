@@ -69,7 +69,7 @@ public class EntityCreatureTameable extends EntityCreatureAgeable implements IEn
     	if(!this.isTamed() || !LycanitesMobs.config.getFeatureBool("OwnerTags"))
     		return super.getCommandSenderName();
     	
-    	String ownerName = this.getOwnerName();
+    	String ownerName = this.func_152113_b();
     	String ownerSuffix = "'s ";
     	if(ownerName.substring(ownerName.length() - 1) == "s" || (ownerName.substring(ownerName.length() - 1) == "S"))
     			ownerSuffix = "' ";
@@ -113,7 +113,7 @@ public class EntityCreatureTameable extends EntityCreatureAgeable implements IEn
     // ========== Can leash ==========
     @Override
     public boolean canLeash(EntityPlayer player) {
-	    if(this.isTamed() && player.getCommandSenderName().equalsIgnoreCase(this.getOwnerName()))
+	    if(this.isTamed() && player.getCommandSenderName().equalsIgnoreCase(this.func_152113_b()))
 	        return true;
 	    return super.canLeash(player);
     }
@@ -162,7 +162,7 @@ public class EntityCreatureTameable extends EntityCreatureAgeable implements IEn
     	commands.putAll(super.getInteractCommands(player, itemStack));
 		
 		// Open GUI:
-		if(this.isTamed() && player.getCommandSenderName().equalsIgnoreCase(this.getOwnerName()) && !this.worldObj.isRemote)
+		if(this.isTamed() && player.getCommandSenderName().equalsIgnoreCase(this.func_152113_b()) && !this.worldObj.isRemote)
 			commands.put(CMD_PRIOR.MAIN.id, "GUI");
     	
     	// Server Item Commands:
@@ -177,7 +177,7 @@ public class EntityCreatureTameable extends EntityCreatureAgeable implements IEn
                 commands.put(CMD_PRIOR.ITEM_USE.id, "Feed");
     		
     		// Equipment:
-    		if(this.isTamed() && !this.isChild() && !this.isMinion() && player.getCommandSenderName().equalsIgnoreCase(this.getOwnerName())) {
+    		if(this.isTamed() && !this.isChild() && !this.isMinion() && player.getCommandSenderName().equalsIgnoreCase(this.func_152113_b())) {
 	    		String equipSlot = this.inventory.getSlotForEquipment(itemStack);
 	    		if(equipSlot != null && (this.inventory.getEquipmentStack(equipSlot) == null || this.inventory.getEquipmentStack(equipSlot).getItem() != itemStack.getItem()))
 	    			commands.put(CMD_PRIOR.EQUIPPING.id, "Equip Item");
@@ -185,7 +185,7 @@ public class EntityCreatureTameable extends EntityCreatureAgeable implements IEn
     	}
 		
 		// Sit:
-		//if(this.isTamed() && this.canSit() && player.getCommandSenderName().equalsIgnoreCase(this.getOwnerName()) && !this.worldObj.isRemote)
+		//if(this.isTamed() && this.canSit() && player.getCommandSenderName().equalsIgnoreCase(this.func_152113_b()) && !this.worldObj.isRemote)
 			//commands.put(CMD_PRIOR.MAIN.id, "Sit");
     	
     	return commands;
@@ -255,7 +255,7 @@ public class EntityCreatureTameable extends EntityCreatureAgeable implements IEn
     public boolean canNameTag(EntityPlayer player) {
     	if(!this.isTamed())
     		return super.canNameTag(player);
-    	else if(this.isTamed() && player.getCommandSenderName().equalsIgnoreCase(this.getOwnerName()))
+    	else if(this.isTamed() && player.getCommandSenderName().equalsIgnoreCase(this.func_152113_b()))
     		return super.canNameTag(player);
     	return false;
     }
@@ -429,7 +429,7 @@ public class EntityCreatureTameable extends EntityCreatureAgeable implements IEn
     //                       Owner
     // ==================================================
     @Override
-    public String getOwnerName() {
+    public String func_152113_b() {
         return this.dataWatcher.getWatchableObjectString(WATCHER_ID.OWNER.id);
     }
     
@@ -439,7 +439,7 @@ public class EntityCreatureTameable extends EntityCreatureAgeable implements IEn
     
     @Override
     public EntityLivingBase getOwner() {
-        return this.worldObj.getPlayerEntityByName(this.getOwnerName());
+        return this.worldObj.getPlayerEntityByName(this.func_152113_b());
     }
     
     
@@ -637,7 +637,7 @@ public class EntityCreatureTameable extends EntityCreatureAgeable implements IEn
     @Override
  	public EntityCreatureAgeable createChild(EntityCreatureAgeable baby) {
     	EntityCreatureAgeable spawnedBaby = super.createChild(baby);
-    	String ownerName = this.getOwnerName();
+    	String ownerName = this.func_152113_b();
     	if(ownerName != null && ownerName.trim().length() > 0 && spawnedBaby != null && spawnedBaby instanceof EntityCreatureTameable) {
     		EntityCreatureTameable tamedBaby = (EntityCreatureTameable)spawnedBaby;
     		tamedBaby.setOwner(ownerName);
@@ -699,7 +699,7 @@ public class EntityCreatureTameable extends EntityCreatureAgeable implements IEn
     @Override
     public boolean canBeColored(EntityPlayer player) {
     	if(player == null) return true;
-    	return this.isTamed() && player.getCommandSenderName().equalsIgnoreCase(this.getOwnerName());
+    	return this.isTamed() && player.getCommandSenderName().equalsIgnoreCase(this.func_152113_b());
     }
     
     
@@ -773,11 +773,11 @@ public class EntityCreatureTameable extends EntityCreatureAgeable implements IEn
     @Override
     public void writeEntityToNBT(NBTTagCompound nbtTagCompound) {
         super.writeEntityToNBT(nbtTagCompound);
-        if(this.getOwnerName() == null) {
+        if(this.func_152113_b() == null) {
         	nbtTagCompound.setString("Owner", "");
         }
         else {
-        	nbtTagCompound.setString("Owner", this.getOwnerName());
+        	nbtTagCompound.setString("Owner", this.func_152113_b());
         }
         nbtTagCompound.setBoolean("Sitting", this.isSitting());
         nbtTagCompound.setBoolean("Following", this.isFollowing());

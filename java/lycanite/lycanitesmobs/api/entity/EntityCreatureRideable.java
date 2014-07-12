@@ -331,7 +331,7 @@ public class EntityCreatureRideable extends EntityCreatureTameable {
     	// Can Be Mounted By A Player:
     	if(this.isTamed() && entity instanceof EntityPlayer) {
     		EntityPlayer player = (EntityPlayer)entity;
-    		if(player.getCommandSenderName().equalsIgnoreCase(this.getOwnerName()))
+    		if(player.getCommandSenderName().equalsIgnoreCase(this.func_152113_b()))
     			return this.hasSaddle() && !this.isChild();
     	}
     	
